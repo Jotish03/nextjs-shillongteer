@@ -12,7 +12,7 @@ import {
 
 const TableDemo = () => {
   return (
-    <main className="flex items-center justify-center p-4 m-14">
+    <main className="flex items-center justify-center p-2 m-8">
       <Table>
         <TableCaption>A list of your dream meanings</TableCaption>
         <TableHeader>
