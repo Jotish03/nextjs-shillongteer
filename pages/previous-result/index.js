@@ -13,7 +13,6 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -31,7 +30,7 @@ const PreviousResult = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const resultsPerPage = 10;
-  const isAdmin = false;
+  const isAdmin = true;
 
   useEffect(() => {
     fetchData();
@@ -71,7 +70,7 @@ const PreviousResult = () => {
   const totalResults = results.length;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
 
-  const startIndex = (currentPage - 1) * resultsPerPage;
+  const startIndex = (totalPages - currentPage) * resultsPerPage;
   const endIndex = Math.min(startIndex + resultsPerPage, totalResults);
 
   return (
@@ -97,26 +96,30 @@ const PreviousResult = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {results.slice(startIndex, endIndex).map((result) => (
-                <TableRow key={result._id}>
-                  <TableCell>{result.city}</TableCell>
-                  <TableCell>{formatDate(result.date)}</TableCell>
-                  <TableCell>{result.fr}</TableCell>
-                  <TableCell>{result.sr}</TableCell>
-                  {isAdmin && (
-                    <TableCell className="w-28 sm:m-0 lg:m-2">
-                      <div>
-                        <Button
-                          variant="destructive"
-                          onClick={() => handleDelete(result._id)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
+              {results
+                .reverse() // Reverse the order of results to display the latest first
+                .slice(startIndex, endIndex)
+                .reverse()
+                .map((result) => (
+                  <TableRow key={result._id}>
+                    <TableCell>{result.city}</TableCell>
+                    <TableCell>{formatDate(result.date)}</TableCell>
+                    <TableCell>{result.fr}</TableCell>
+                    <TableCell>{result.sr}</TableCell>
+                    {isAdmin && (
+                      <TableCell className="w-28 sm:m-0 lg:m-2">
+                        <div>
+                          <Button
+                            variant="destructive"
+                            onClick={() => handleDelete(result._id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         )}
@@ -125,7 +128,7 @@ const PreviousResult = () => {
       {totalPages > 1 && (
         <section className="mb-[5vh]">
           <Pagination>
-            <PaginationContent>
+            <PaginationContent className="cursor-pointer">
               {currentPage !== 1 && (
                 <PaginationItem>
                   <PaginationPrevious
@@ -136,11 +139,15 @@ const PreviousResult = () => {
 
               {Array.from({ length: totalPages }, (_, i) => (
                 <PaginationItem key={i + 1}>
-                  <PaginationLink onClick={() => setCurrentPage(i + 1)}>
+                  <PaginationLink
+                    onClick={() => setCurrentPage(i + 1)}
+                    isActive={i + 1 === currentPage}
+                  >
                     {i + 1}
                   </PaginationLink>
                 </PaginationItem>
               ))}
+
               {currentPage !== totalPages && (
                 <PaginationItem>
                   <PaginationNext
