@@ -21,7 +21,7 @@ const HeroSection = () => {
   const [morningResult, setMorningResult] = useState("XX");
   const [eveningResult, setEveningResult] = useState("XX");
   const [loadingResult, setLoadingResult] = useState(true);
-  const isAdmin = true;
+  const isAdmin = false;
 
   //context menu
   const notificationctx = useContext(NotificationContext);
