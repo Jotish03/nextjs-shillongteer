@@ -10,12 +10,7 @@ export default function Layout({ children }) {
   const activeNotification = notificationctx.notification;
   return (
     <>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider attribute="class" disableTransitionOnChange>
         <main>
           <NavigationBar />
           {children}
