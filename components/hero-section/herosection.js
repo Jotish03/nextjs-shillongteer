@@ -180,7 +180,7 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-      <div className="w-full  md:w-2/4 p-10">
+      <div className="w-full mt-[-100px] lg:mt-0 md:mt-0 md:w-2/4 p-10">
         <Table>
           <TableCaption>Shillong Teer Result</TableCaption>
           <TableHeader>
