@@ -176,12 +176,7 @@ const HeroSection = () => {
       >
         <div className="relative" style={{ width: "100%", paddingTop: "100%" }}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <Lottie
-              isClickToPauseDisabled
-              options={defaultOptions}
-              width={420}
-              height={420}
-            />
+            <Lottie isClickToPauseDisabled options={defaultOptions} />
           </div>
         </div>
       </div>
@@ -214,12 +209,12 @@ const HeroSection = () => {
                             value={morningResult}
                             onChange={(e) => setMorningResult(e.target.value)}
                           />
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex gap-1">
                             <Button
                               className="mt-4"
                               onClick={handleMorningUpdate}
                             >
-                              Add Result
+                              Add
                             </Button>
                             <Button
                               variant="destructive"
@@ -251,12 +246,12 @@ const HeroSection = () => {
                             value={eveningResult}
                             onChange={(e) => setEveningResult(e.target.value)}
                           />
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex  gap-1">
                             <Button
                               className="mt-4"
                               onClick={handleEveningUpdate}
                             >
-                              Add Result
+                              Add
                             </Button>
                             <Button
                               variant="destructive"
