@@ -8,12 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { IoMdAdd } from "react-icons/io";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import axios from "axios"; // Import Axios
-
+import axios from "axios";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/router";
+import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
 
 const AddResult = () => {
   const router = useRouter();
@@ -31,18 +32,17 @@ const AddResult = () => {
     fr: "",
     sr: "",
   });
+  const [loadingAddResult, setLoadingAddResult] = useState(false); // Add loading state for the "Add Result" button
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    // Make handleSubmit asynchronous
     e.preventDefault();
+    setLoadingAddResult(true); // Set loading state to true when submitting the form
     try {
-      // Perform Axios POST request
       await axios.post("/api/addresult", formData);
-      // Reset form data after successful submission
       setFormData({
         city: "",
         date: "",
@@ -53,6 +53,8 @@ const AddResult = () => {
       router.push("/previous-result");
     } catch (error) {
       console.error("Error adding result:", error);
+    } finally {
+      setLoadingAddResult(false); // Reset loading state after form submission (whether successful or not)
     }
   };
 
@@ -137,7 +139,17 @@ const AddResult = () => {
                 <Button variant="outline" onClick={onCancel}>
                   Cancel
                 </Button>
-                <Button type="submit">Add Result</Button>
+                <Button type="submit">
+                  {loadingAddResult ? (
+                    <ClipLoader
+                      size={20}
+                      color={`#000 dark:#000`}
+                      loading={true}
+                    />
+                  ) : (
+                    <IoMdAdd size={20} />
+                  )}
+                </Button>
               </CardFooter>
             </div>
           </form>

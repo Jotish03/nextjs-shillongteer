@@ -30,7 +30,7 @@ const PreviousResult = () => {
   const router = useRouter();
   const [results, setResults] = useState([]);
   const [loadingPreviousResult, setLoadingPreviousResult] = useState(true);
-  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingAddPage, setLoadingAddPage] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [loadingStates, setLoadingStates] = useState([]);
   const notificationctx = useContext(NotificationContext);
@@ -61,9 +61,11 @@ const PreviousResult = () => {
     e.preventDefault();
     try {
       await router.push("/add-result");
+      setLoadingAddPage(true);
       fetchData();
     } catch (error) {
       console.error("Error adding result:", error);
+      setLoadingAddPage(true);
     }
   };
 
@@ -115,7 +117,11 @@ const PreviousResult = () => {
     <>
       <section className="flex items-center justify-center mt-10">
         <Button type="button" onClick={handleAddResult}>
-          Add Previous Result
+          {loadingAddPage ? (
+            <ClipLoader size={20} color={`#000 dark:#000`} loading={true} />
+          ) : (
+            "Add Previous Result"
+          )}
         </Button>
       </section>
       <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">

@@ -14,11 +14,11 @@ const CardList = () => {
           <CardHolder url="/images/presult.png" title={"Previous Result"} />
         </Link>
       </div>
-      <div className="flex flex-wrap justify-center gap-14">
+      {/* <div className="flex flex-wrap justify-center gap-14">
         <CardHolder url="/images/presult.png" title={"Previous Result"} />
         <CardHolder url="/images/presult.png" title={"Previous Result"} />
         <CardHolder url="/images/presult.png" title={"Previous Result"} />
-      </div>
+      </div> */}
     </main>
   );
 };
