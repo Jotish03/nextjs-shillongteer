@@ -13,6 +13,7 @@ export default function Layout({ children }) {
       <ThemeProvider attribute="class" disableTransitionOnChange>
         <main>
           <NavigationBar />
+
           {children}
         </main>
         <Toaster />

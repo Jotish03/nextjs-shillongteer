@@ -6,11 +6,11 @@ import "@/styles/globals.css";
 export default function App({ Component, pageProps }) {
   return (
     <NotificationContextProvider>
-      <FramerMotion>
-        <Layout>
+      <Layout>
+        <FramerMotion>
           <Component {...pageProps} />
-        </Layout>
-      </FramerMotion>
+        </FramerMotion>
+      </Layout>
     </NotificationContextProvider>
   );
 }

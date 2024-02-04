@@ -1,4 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { Button } from "../ui/button";
+import Lottie from "react-lottie";
+import animationData from "../../public/images/teerlogo.json";
+import { Input } from "../ui/input";
+import NotificationContext from "@/store/notification-store";
 import {
   Table,
   TableBody,
@@ -10,23 +16,13 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { Button } from "../ui/button";
-import Lottie from "react-lottie";
-import animationData from "../../public/images/teerlogo.json";
-import { Input } from "../ui/input";
-import axios from "axios";
-import NotificationContext from "@/store/notification-store";
-
 const HeroSection = () => {
   const [morningResult, setMorningResult] = useState("XX");
   const [eveningResult, setEveningResult] = useState("XX");
   const [loadingResult, setLoadingResult] = useState(true);
-  const isAdmin = false;
-
-  //context menu
+  const isAdmin = true;
   const notificationctx = useContext(NotificationContext);
 
-  // Morning Result Fetch
   useEffect(() => {
     const fetchMorningResult = async () => {
       try {
@@ -42,7 +38,6 @@ const HeroSection = () => {
     fetchMorningResult();
   }, []);
 
-  // Evening Result Fetch
   useEffect(() => {
     const fetchEveningResult = async () => {
       try {
@@ -51,14 +46,13 @@ const HeroSection = () => {
         setLoadingResult(false);
       } catch (error) {
         console.error("Error fetching evening result:", error);
-        setEveningResult(false);
+        setLoadingResult(false);
       }
     };
 
     fetchEveningResult();
   }, []);
 
-  // handleMorningUpdate
   const handleMorningUpdate = async () => {
     try {
       const res = await axios.post(
@@ -76,7 +70,7 @@ const HeroSection = () => {
         description: "Result Added",
         variant: "secondary",
       });
-      setMorningResult(morningResult); // Update morningResult state after successful update
+      setMorningResult(morningResult);
     } catch (error) {
       notificationctx.showNotification({
         title: "Error Adding Result",
@@ -87,7 +81,6 @@ const HeroSection = () => {
     }
   };
 
-  // handleEveningUpdate
   const handleEveningUpdate = async () => {
     try {
       const res = await axios.post(
@@ -105,7 +98,7 @@ const HeroSection = () => {
         description: "Result Added",
         variant: "primary",
       });
-      setEveningResult(eveningResult); // Update eveningResult state after successful update
+      setEveningResult(eveningResult);
     } catch (error) {
       notificationctx.showNotification({
         title: "Error Adding Result",
@@ -116,7 +109,6 @@ const HeroSection = () => {
     }
   };
 
-  // handleMorningDelete
   const handleMorningDelete = async () => {
     try {
       const res = await axios.delete("/api/morningresult");
@@ -126,10 +118,10 @@ const HeroSection = () => {
         description: "Data Deleted",
         variant: "destructive",
       });
-      setMorningResult("XX"); // Reset morningResult state after successful deletion
+      setMorningResult("XX");
     } catch (error) {
       notificationctx.showNotification({
-        title: "Error Deletting Result",
+        title: "Error Deleting Result",
         description: "Error!",
         variant: "destructive",
       });
@@ -137,7 +129,6 @@ const HeroSection = () => {
     }
   };
 
-  // handleEveningDelete
   const handleEveningDelete = async () => {
     try {
       const res = await axios.delete("/api/eveningresult");
@@ -147,10 +138,10 @@ const HeroSection = () => {
         description: "Data Deleted",
         variant: "destructive",
       });
-      setEveningResult("XX"); // Reset eveningResult state after successful deletion
+      setEveningResult("XX");
     } catch (error) {
       notificationctx.showNotification({
-        title: "Error Deletting Result",
+        title: "Error Deleting Result",
         description: "Error!",
         variant: "destructive",
       });
@@ -161,7 +152,6 @@ const HeroSection = () => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-
     animationData: animationData,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -209,16 +199,10 @@ const HeroSection = () => {
                             value={morningResult}
                             onChange={(e) => setMorningResult(e.target.value)}
                           />
-                          <div className="flex gap-1">
-                            <Button
-                              className="mt-4"
-                              onClick={handleMorningUpdate}
-                            >
-                              Add
-                            </Button>
+                          <div className="flex gap-1 mt-4">
+                            <Button onClick={handleMorningUpdate}>Add</Button>
                             <Button
                               variant="destructive"
-                              className="mt-4"
                               onClick={handleMorningDelete}
                             >
                               Delete
@@ -226,7 +210,7 @@ const HeroSection = () => {
                           </div>
                         </>
                       ) : (
-                        morningResult // Display morningResult directly
+                        morningResult
                       )}
                     </>
                   )}
@@ -246,16 +230,10 @@ const HeroSection = () => {
                             value={eveningResult}
                             onChange={(e) => setEveningResult(e.target.value)}
                           />
-                          <div className="flex  gap-1">
-                            <Button
-                              className="mt-4"
-                              onClick={handleEveningUpdate}
-                            >
-                              Add
-                            </Button>
+                          <div className="flex gap-1 mt-4">
+                            <Button onClick={handleEveningUpdate}>Add</Button>
                             <Button
                               variant="destructive"
-                              className="mt-4"
                               onClick={handleEveningDelete}
                             >
                               Delete
@@ -263,7 +241,7 @@ const HeroSection = () => {
                           </div>
                         </>
                       ) : (
-                        eveningResult // Display eveningResult directly
+                        eveningResult
                       )}
                     </>
                   )}

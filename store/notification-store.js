@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 const NotificationContext = createContext({
   notification: null,
@@ -7,19 +7,41 @@ const NotificationContext = createContext({
 });
 
 export function NotificationContextProvider({ children }) {
-  const [activeNotification, setActiveNotification] = useState();
+  const [activeNotification, setActiveNotification] = useState(null);
+  const [timeoutId, setTimeoutId] = useState(null);
+
+  useEffect(() => {
+    // Clear the timeout when the component unmounts
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
 
   function showNotificationHandler(notificationData) {
     setActiveNotification(notificationData);
 
-    // Hide notification after 5 seconds (5000 milliseconds)
-    setTimeout(() => {
+    // Clear previous timeout if exists
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set new timeout
+    const id = setTimeout(() => {
       setActiveNotification(null);
     }, 5000); // Adjust the duration as needed
+
+    // Save the timeout id
+    setTimeoutId(id);
   }
 
   function hideNotificationHandler() {
     setActiveNotification(null);
+    // Clear timeout when notification is manually hidden
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
   }
 
   const context = {
