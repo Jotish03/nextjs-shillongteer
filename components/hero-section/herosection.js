@@ -5,6 +5,8 @@ import Lottie from "react-lottie";
 import animationData from "../../public/images/teerlogo.json";
 import { Input } from "../ui/input";
 import NotificationContext from "@/store/notification-store";
+import { IoMdAdd } from "react-icons/io";
+import { MdDeleteOutline } from "react-icons/md";
 import {
   Table,
   TableBody,
@@ -15,46 +17,39 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ClipLoader } from "react-spinners";
 
 const HeroSection = () => {
   const [morningResult, setMorningResult] = useState("XX");
   const [eveningResult, setEveningResult] = useState("XX");
   const [loadingResult, setLoadingResult] = useState(true);
+  const [loadingMorningUpdate, setLoadingMorningUpdate] = useState(false);
+  const [loadingEveningUpdate, setLoadingEveningUpdate] = useState(false);
+  const [loadingMorningDelete, setLoadingMorningDelete] = useState(false);
+  const [loadingEveningDelete, setLoadingEveningDelete] = useState(false);
   const isAdmin = true;
   const notificationctx = useContext(NotificationContext);
 
   useEffect(() => {
-    const fetchMorningResult = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get("/api/morningresult");
-        setMorningResult(response.data.result?.result || "XX");
+        const morningResponse = await axios.get("/api/morningresult");
+        setMorningResult(morningResponse.data.result?.result || "XX");
+        const eveningResponse = await axios.get("/api/eveningresult");
+        setEveningResult(eveningResponse.data.result?.result || "XX");
         setLoadingResult(false);
       } catch (error) {
-        console.error("Error fetching morning result:", error);
+        console.error("Error fetching results:", error);
         setLoadingResult(false);
       }
     };
 
-    fetchMorningResult();
-  }, []);
-
-  useEffect(() => {
-    const fetchEveningResult = async () => {
-      try {
-        const response = await axios.get("/api/eveningresult");
-        setEveningResult(response.data.result?.result || "XX");
-        setLoadingResult(false);
-      } catch (error) {
-        console.error("Error fetching evening result:", error);
-        setLoadingResult(false);
-      }
-    };
-
-    fetchEveningResult();
+    fetchData();
   }, []);
 
   const handleMorningUpdate = async () => {
     try {
+      setLoadingMorningUpdate(true);
       const res = await axios.post(
         "/api/morningresult",
         { morningResult },
@@ -68,7 +63,7 @@ const HeroSection = () => {
       notificationctx.showNotification({
         title: "Morning Result Added Successfully",
         description: "Result Added",
-        variant: "secondary",
+        variant: "blackToast",
       });
       setMorningResult(morningResult);
     } catch (error) {
@@ -78,11 +73,14 @@ const HeroSection = () => {
         variant: "destructive",
       });
       console.error(error);
+    } finally {
+      setLoadingMorningUpdate(false);
     }
   };
 
   const handleEveningUpdate = async () => {
     try {
+      setLoadingEveningUpdate(true);
       const res = await axios.post(
         "/api/eveningresult",
         { eveningResult },
@@ -96,7 +94,7 @@ const HeroSection = () => {
       notificationctx.showNotification({
         title: "Evening Result Added Successfully",
         description: "Result Added",
-        variant: "primary",
+        variant: "blackToast",
       });
       setEveningResult(eveningResult);
     } catch (error) {
@@ -106,11 +104,14 @@ const HeroSection = () => {
         variant: "destructive",
       });
       console.error(error);
+    } finally {
+      setLoadingEveningUpdate(false);
     }
   };
 
   const handleMorningDelete = async () => {
     try {
+      setLoadingMorningDelete(true);
       const res = await axios.delete("/api/morningresult");
       console.log(res.data);
       notificationctx.showNotification({
@@ -126,11 +127,14 @@ const HeroSection = () => {
         variant: "destructive",
       });
       console.error(error);
+    } finally {
+      setLoadingMorningDelete(false);
     }
   };
 
   const handleEveningDelete = async () => {
     try {
+      setLoadingEveningDelete(true);
       const res = await axios.delete("/api/eveningresult");
       console.log(res.data);
       notificationctx.showNotification({
@@ -146,6 +150,8 @@ const HeroSection = () => {
         variant: "destructive",
       });
       console.error(error);
+    } finally {
+      setLoadingEveningDelete(false);
     }
   };
 
@@ -200,12 +206,34 @@ const HeroSection = () => {
                             onChange={(e) => setMorningResult(e.target.value)}
                           />
                           <div className="flex gap-1 mt-4">
-                            <Button onClick={handleMorningUpdate}>Add</Button>
+                            <Button
+                              onClick={handleMorningUpdate}
+                              disabled={loadingMorningUpdate}
+                            >
+                              {loadingMorningUpdate ? (
+                                <ClipLoader
+                                  size={20}
+                                  color={"#000"}
+                                  loading={true}
+                                />
+                              ) : (
+                                <IoMdAdd size={20} />
+                              )}
+                            </Button>
                             <Button
                               variant="destructive"
                               onClick={handleMorningDelete}
+                              disabled={loadingMorningDelete}
                             >
-                              Delete
+                              {loadingMorningDelete ? (
+                                <ClipLoader
+                                  size={20}
+                                  color={"#fff"}
+                                  loading={true}
+                                />
+                              ) : (
+                                <MdDeleteOutline size={20} />
+                              )}
                             </Button>
                           </div>
                         </>
@@ -231,12 +259,34 @@ const HeroSection = () => {
                             onChange={(e) => setEveningResult(e.target.value)}
                           />
                           <div className="flex gap-1 mt-4">
-                            <Button onClick={handleEveningUpdate}>Add</Button>
+                            <Button
+                              onClick={handleEveningUpdate}
+                              disabled={loadingEveningUpdate}
+                            >
+                              {loadingEveningUpdate ? (
+                                <ClipLoader
+                                  size={20}
+                                  color={"#000"}
+                                  loading={true}
+                                />
+                              ) : (
+                                <IoMdAdd size={20} />
+                              )}
+                            </Button>
                             <Button
                               variant="destructive"
                               onClick={handleEveningDelete}
+                              disabled={loadingEveningDelete}
                             >
-                              Delete
+                              {loadingEveningDelete ? (
+                                <ClipLoader
+                                  size={20}
+                                  color={"#fff"}
+                                  loading={true}
+                                />
+                              ) : (
+                                <MdDeleteOutline size={20} />
+                              )}
                             </Button>
                           </div>
                         </>
