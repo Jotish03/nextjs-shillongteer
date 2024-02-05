@@ -36,7 +36,6 @@ const PreviousResult = () => {
   const notificationctx = useContext(NotificationContext);
 
   const resultsPerPage = 10;
-  const isAdmin = true;
 
   useEffect(() => {
     fetchData();

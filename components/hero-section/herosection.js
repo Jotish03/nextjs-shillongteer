@@ -18,8 +18,12 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ClipLoader } from "react-spinners";
+import { useSession } from "next-auth/react";
 
 const HeroSection = () => {
+  const { data: session, status } = useSession();
+  console.log(session?.user);
+
   const [morningResult, setMorningResult] = useState("XX");
   const [eveningResult, setEveningResult] = useState("XX");
   const [loadingResult, setLoadingResult] = useState(true);
@@ -27,7 +31,7 @@ const HeroSection = () => {
   const [loadingEveningUpdate, setLoadingEveningUpdate] = useState(false);
   const [loadingMorningDelete, setLoadingMorningDelete] = useState(false);
   const [loadingEveningDelete, setLoadingEveningDelete] = useState(false);
-  const isAdmin = true;
+
   const notificationctx = useContext(NotificationContext);
 
   useEffect(() => {
@@ -197,7 +201,9 @@ const HeroSection = () => {
                     <Skeleton className="w-[50px] h-[20px] rounded-full" />
                   ) : (
                     <>
-                      {isAdmin ? (
+                      {session &&
+                      session.user &&
+                      session.user.role === "admin" ? (
                         <>
                           <Input
                             type="text"
@@ -250,7 +256,9 @@ const HeroSection = () => {
                     <Skeleton className="w-[50px] h-[20px] rounded-full" />
                   ) : (
                     <>
-                      {isAdmin ? (
+                      {session &&
+                      session.user &&
+                      session.user.role === "admin" ? (
                         <>
                           <Input
                             type="text"
