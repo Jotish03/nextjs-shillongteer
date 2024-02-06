@@ -14,6 +14,7 @@ import {
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -26,6 +27,7 @@ import SkeletonTable from "@/components/skeleton-table";
 import NotificationContext from "@/store/notification-store";
 import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 
 const PreviousResult = () => {
   const router = useRouter();
@@ -116,6 +118,33 @@ const PreviousResult = () => {
 
   return (
     <>
+      <Head>
+        <title>Previous Teer Results - Shillong Teer Result</title>
+        <meta
+          name="description"
+          content="Check out the previous Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+        />
+        <meta
+          name="keywords"
+          content="teer, shillong teer, teer result, previous teer result, teer result history, teer result archive"
+        />
+        <meta name="author" content="Shillong Teer Result Archive" />
+        <meta
+          property="og:title"
+          content="Previous Teer Results - Shillong Teer Result"
+        />
+        <meta
+          property="og:description"
+          content="Check out the previous Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.shillongmorningsundayresult.com/previous-result"
+        />
+        {/* Add more meta tags as needed */}
+      </Head>
+
       <section className="flex items-center justify-center mt-10">
         {session && (
           <Button type="button" onClick={handleAddResult}>
@@ -190,17 +219,6 @@ const PreviousResult = () => {
                   />
                 </PaginationItem>
               )}
-
-              {Array.from({ length: totalPages }, (_, i) => (
-                <PaginationItem key={i + 1}>
-                  <PaginationLink
-                    onClick={() => setCurrentPage(i + 1)}
-                    isActive={i + 1 === currentPage}
-                  >
-                    {i + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
 
               {currentPage !== totalPages && (
                 <PaginationItem>

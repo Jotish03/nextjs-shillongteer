@@ -14,6 +14,7 @@ import axios from "axios";
 import { useState } from "react";
 import { object, string } from "zod";
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 
 const UserRegister = () => {
   const router = useRouter();
@@ -97,6 +98,30 @@ const UserRegister = () => {
 
   return (
     <>
+      <Head>
+        <title>Register - Shillong Teer Result</title>
+        <meta
+          name="description"
+          content="Register to create an account and access personalized features. Stay updated with the latest Shillong Teer results."
+        />
+        <meta
+          name="keywords"
+          content="teer, shillong teer, register, teer result, teer result today"
+        />
+        <meta name="author" content="Shillong Teer Result Team" />
+        <meta property="og:title" content="Register - Shillong Teer Result" />
+        <meta
+          property="og:description"
+          content="Register to create an account and access personalized features. Stay updated with the latest Shillong Teer results."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.shillongmorningsundayresult.com"
+        />
+        {/* Add more meta tags as needed */}
+      </Head>
+
       {session ? (
         <main className="flex items-center justify-center h-[90vh] p-8">
           <Card className="w-[450px]">

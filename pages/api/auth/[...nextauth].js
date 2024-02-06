@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { getSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoClient } from "mongodb";
 import { compare } from "bcrypt";
@@ -7,13 +7,12 @@ export default NextAuth({
   session: {
     jwt: true,
   },
+  secret: process.env.NEXTAUTH_SECRET, // Add the NEXTAUTH_SECRET from environment variables
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
         try {
-          const client = await MongoClient.connect(
-            "mongodb+srv://shillongdb:Shillong2024@nextjsteer.thgrjq8.mongodb.net/?retryWrites=true&w=majority"
-          );
+          const client = await MongoClient.connect(process.env.MONGODB_URI); // Use MONGODB_URI from environment variables
 
           const db = client.db("nextjsteer");
           const collection = db.collection("users");
