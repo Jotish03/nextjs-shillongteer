@@ -10,19 +10,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
-import { useContext, useState } from "react";
+import { getSession, signIn } from "next-auth/react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import NotificationContext from "@/store/notification-store";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Loading from "@/pages/loading";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const notificationctx = useContext(NotificationContext);
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session) {
+        router.replace("/");
+      } else {
+        setLoading(false);
+      }
+    });
+  }, [router]);
 
   const handleUserLoginAuth = async (e) => {
     e.preventDefault();
@@ -84,7 +96,7 @@ const UserLogin = () => {
         />
         {/* Add more meta tags as needed */}
       </Head>
-
+      {loading && <Loading />}
       <main className="flex items-center justify-center h-[80dvh] p-8">
         <Card className="w-[450px]">
           <CardHeader>

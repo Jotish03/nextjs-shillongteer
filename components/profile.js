@@ -24,7 +24,7 @@ const Profile = () => {
     <main className="flex items-center justify-center">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Avatar className="w-9 h-9">
+          <Avatar className="w-[35px] h-[35px]">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>User</AvatarFallback>
           </Avatar>
