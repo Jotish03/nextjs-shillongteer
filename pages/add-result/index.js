@@ -23,8 +23,11 @@ import {
 } from "@/components/ui/popover";
 import { useRouter } from "next/router";
 import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const AddResult = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [formData, setFormData] = useState({
     city: "",
@@ -64,98 +67,109 @@ const AddResult = () => {
   };
 
   return (
-    <main className="flex items-center justify-center p-8 min-h-[90vh]">
-      <Card className="w-[550px]">
-        <CardHeader>
-          <CardTitle>Update Previous Result</CardTitle>
-          <CardDescription>Add Previous Result below:</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="city">City</Label>
-                <Input
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  placeholder="Enter City"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="date">Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !formData.date && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {formData.date ? (
-                        format(new Date(formData.date), "PPP")
+    <>
+      {session ? (
+        <main className="flex items-center justify-center p-8 min-h-[90vh]">
+          <Card className="w-[550px]">
+            <CardHeader>
+              <CardTitle>Update Previous Result</CardTitle>
+              <CardDescription>Add Previous Result below:</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit}>
+                <div className="grid w-full items-center gap-4">
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="city">City</Label>
+                    <Input
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      placeholder="Enter City"
+                    />
+                  </div>
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="date">Date</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !formData.date && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {formData.date ? (
+                            format(new Date(formData.date), "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={formData.date}
+                          onSelect={(date) =>
+                            setFormData({ ...formData, date: date })
+                          }
+                          initialFocus
+                          name="date"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="fr">F/R</Label>
+                    <Input
+                      id="fr"
+                      name="fr"
+                      value={formData.fr}
+                      onChange={handleChange}
+                      placeholder="Enter City"
+                    />
+                  </div>
+                  <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="sr">S/R</Label>
+                    <Input
+                      id="sr"
+                      name="sr"
+                      value={formData.sr}
+                      onChange={handleChange}
+                      placeholder="Enter City"
+                    />
+                  </div>
+                  <CardFooter className="flex justify-end gap-2 mr-[-20px]">
+                    <Button variant="outline" onClick={onCancel}>
+                      Cancel
+                    </Button>
+                    <Button type="submit">
+                      {loadingAddResult ? (
+                        <ClipLoader
+                          size={20}
+                          color={`#000 dark:#000`}
+                          loading={true}
+                        />
                       ) : (
-                        <span>Pick a date</span>
+                        <IoMdAdd size={20} />
                       )}
                     </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={formData.date}
-                      onSelect={(date) =>
-                        setFormData({ ...formData, date: date })
-                      }
-                      initialFocus
-                      name="date"
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="fr">F/R</Label>
-                <Input
-                  id="fr"
-                  name="fr"
-                  value={formData.fr}
-                  onChange={handleChange}
-                  placeholder="Enter City"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="sr">S/R</Label>
-                <Input
-                  id="sr"
-                  name="sr"
-                  value={formData.sr}
-                  onChange={handleChange}
-                  placeholder="Enter City"
-                />
-              </div>
-              <CardFooter className="flex justify-end gap-2 mr-[-20px]">
-                <Button variant="outline" onClick={onCancel}>
-                  Cancel
-                </Button>
-                <Button type="submit">
-                  {loadingAddResult ? (
-                    <ClipLoader
-                      size={20}
-                      color={`#000 dark:#000`}
-                      loading={true}
-                    />
-                  ) : (
-                    <IoMdAdd size={20} />
-                  )}
-                </Button>
-              </CardFooter>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </main>
+                  </CardFooter>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </main>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-[80dvh] gap-4">
+          <p>Login to access</p>
+          <Link href="/" className="">
+            <Button className="font">Go to Homepage</Button>
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 

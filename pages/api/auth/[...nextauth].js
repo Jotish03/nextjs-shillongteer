@@ -36,11 +36,9 @@ export default NextAuth({
           await client.close();
 
           // Include the role property in the session object
-
           return {
-            role: user.role,
-            email: user.email,
-            name: user.name,
+            ...user,
+            role: user.role, // Default role if not present
           };
         } catch (error) {
           console.error("Error during authentication:", error);

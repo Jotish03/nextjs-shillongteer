@@ -22,7 +22,7 @@ import { useSession } from "next-auth/react";
 
 const HeroSection = () => {
   const { data: session, status } = useSession();
-  console.log(session?.user);
+  console.log(session?.user?.role);
 
   const [morningResult, setMorningResult] = useState("XX");
   const [eveningResult, setEveningResult] = useState("XX");
@@ -63,7 +63,7 @@ const HeroSection = () => {
           },
         }
       );
-      console.log(res.data);
+
       notificationctx.showNotification({
         title: "Morning Result Added Successfully",
         description: "Result Added",
@@ -94,7 +94,7 @@ const HeroSection = () => {
           },
         }
       );
-      console.log(res.data);
+
       notificationctx.showNotification({
         title: "Evening Result Added Successfully",
         description: "Result Added",
@@ -117,7 +117,7 @@ const HeroSection = () => {
     try {
       setLoadingMorningDelete(true);
       const res = await axios.delete("/api/morningresult");
-      console.log(res.data);
+
       notificationctx.showNotification({
         title: "Result Deleted Successfully",
         description: "Data Deleted",
@@ -140,7 +140,7 @@ const HeroSection = () => {
     try {
       setLoadingEveningDelete(true);
       const res = await axios.delete("/api/eveningresult");
-      console.log(res.data);
+
       notificationctx.showNotification({
         title: "Result Deleted Successfully",
         description: "Data Deleted",
@@ -201,9 +201,7 @@ const HeroSection = () => {
                     <Skeleton className="w-[50px] h-[20px] rounded-full" />
                   ) : (
                     <>
-                      {session &&
-                      session.user &&
-                      session.user.role === "admin" ? (
+                      {session ? (
                         <>
                           <Input
                             type="text"
@@ -256,9 +254,7 @@ const HeroSection = () => {
                     <Skeleton className="w-[50px] h-[20px] rounded-full" />
                   ) : (
                     <>
-                      {session &&
-                      session.user &&
-                      session.user.role === "admin" ? (
+                      {session ? (
                         <>
                           <Input
                             type="text"

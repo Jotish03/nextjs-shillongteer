@@ -13,10 +13,11 @@ import Link from "next/link";
 import axios from "axios";
 import { useState } from "react";
 import { object, string } from "zod";
+import { useSession } from "next-auth/react";
 
 const UserRegister = () => {
-  // Change function name to start with an uppercase letter
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -46,7 +47,6 @@ const UserRegister = () => {
     if (isFormValid) {
       try {
         const response = await axios.post("/api/auth/registerauth", formData);
-        console.log(response.data);
 
         setFormData({ name: "", email: "", password: "", cpassword: "" });
         setIsSubmitted(true);
@@ -96,94 +96,105 @@ const UserRegister = () => {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90dvh] p-8">
-      <Card className="w-[450px]">
-        <CardHeader>
-          <CardTitle>Admin Authenticate</CardTitle>
-          <CardDescription>Login to access</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {isSubmitted ? (
-            <p>Registration successful. Redirecting to login page...</p>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    type="text"
-                    placeholder="Enter your name"
-                  />
-                  {errors.name && (
-                    <span className="text-red-500">{errors.name}</span>
-                  )}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email"
-                  />
-                  {errors.email && (
-                    <span className="text-red-500">{errors.email}</span>
-                  )}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
-                  {errors.password && (
-                    <span className="text-red-500">{errors.password}</span>
-                  )}
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="cpassword">Confirm Password</Label>
-                  <Input
-                    id="cpassword"
-                    type="password"
-                    placeholder="Confirm your password"
-                    name="cpassword"
-                    value={formData.cpassword}
-                    onChange={handleChange}
-                  />
-                  {errors.cpassword && (
-                    <span className="text-red-500">{errors.cpassword}</span>
-                  )}
-                </div>
+    <>
+      {session ? (
+        <main className="flex items-center justify-center h-[90vh] p-8">
+          <Card className="w-[450px]">
+            <CardHeader>
+              <CardTitle>Admin Authenticate</CardTitle>
+              <CardDescription>Login to access</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isSubmitted ? (
+                <p>Registration successful. Redirecting to login page...</p>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className="grid w-full items-center gap-4">
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        type="text"
+                        placeholder="Enter your name"
+                      />
+                      {errors.name && (
+                        <span className="text-red-500">{errors.name}</span>
+                      )}
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Enter your email"
+                      />
+                      {errors.email && (
+                        <span className="text-red-500">{errors.email}</span>
+                      )}
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="password">Password</Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                      />
+                      {errors.password && (
+                        <span className="text-red-500">{errors.password}</span>
+                      )}
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="cpassword">Confirm Password</Label>
+                      <Input
+                        id="cpassword"
+                        type="password"
+                        placeholder="Confirm your password"
+                        name="cpassword"
+                        value={formData.cpassword}
+                        onChange={handleChange}
+                      />
+                      {errors.cpassword && (
+                        <span className="text-red-500">{errors.cpassword}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex justify-between mt-6">
+                    <Link href="/">
+                      <Button variant="outline" type="button">
+                        Cancel
+                      </Button>
+                    </Link>
+                    <Button type="submit">Register</Button>
+                  </div>
+                </form>
+              )}
+              <div className="flex items-center justify-center mt-8">
+                <Label className="font-thin text-gray-400">
+                  Secure Admin Register: Shillong Teer{" "}
+                </Label>
               </div>
-              <div className="flex justify-between mt-6">
-                <Link href="/">
-                  <Button variant="outline" type="button">
-                    Cancel
-                  </Button>
-                </Link>
-                <Button type="submit">Register</Button>
-              </div>
-            </form>
-          )}
-          <div className="flex items-center justify-center mt-8">
-            <Label className="font-thin text-gray-400">
-              Secure Admin Register: Shillong Teer{" "}
-            </Label>
-          </div>
-        </CardContent>
-      </Card>
-    </main>
+            </CardContent>
+          </Card>
+        </main>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-[80dvh] gap-4">
+          <p>Login to access</p>
+          <Link href="/" className="">
+            <Button className="font">Go to Homepage</Button>
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 
-export default UserRegister; // Export with uppercase letter
+export default UserRegister;

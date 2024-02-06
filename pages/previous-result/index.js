@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import SkeletonTable from "@/components/skeleton-table";
 import NotificationContext from "@/store/notification-store";
 import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { useSession } from "next-auth/react";
 
 const PreviousResult = () => {
   const router = useRouter();
@@ -34,6 +35,7 @@ const PreviousResult = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loadingStates, setLoadingStates] = useState([]);
   const notificationctx = useContext(NotificationContext);
+  const { data: session, status } = useSession();
 
   const resultsPerPage = 10;
 
@@ -115,13 +117,15 @@ const PreviousResult = () => {
   return (
     <>
       <section className="flex items-center justify-center mt-10">
-        <Button type="button" onClick={handleAddResult}>
-          {loadingAddPage ? (
-            <ClipLoader size={20} color={`#000 dark:#000`} loading={true} />
-          ) : (
-            "Add Previous Result"
-          )}
-        </Button>
+        {session && (
+          <Button type="button" onClick={handleAddResult}>
+            {loadingAddPage ? (
+              <ClipLoader size={20} color={`#000 dark:#000`} loading={true} />
+            ) : (
+              "Add Previous Result"
+            )}
+          </Button>
+        )}
       </section>
       <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">
         {loadingPreviousResult ? (
@@ -135,7 +139,7 @@ const PreviousResult = () => {
                 <TableHead>Date</TableHead>
                 <TableHead>F/R</TableHead>
                 <TableHead>S/R</TableHead>
-                {isAdmin && <TableHead>Actions</TableHead>}
+                {session && <TableHead>Actions</TableHead>}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -145,7 +149,7 @@ const PreviousResult = () => {
                   <TableCell>{formatDate(result.date)}</TableCell>
                   <TableCell>{result.fr}</TableCell>
                   <TableCell>{result.sr}</TableCell>
-                  {isAdmin && (
+                  {session && (
                     <TableCell className=" sm:w-auto">
                       <div>
                         <Button
