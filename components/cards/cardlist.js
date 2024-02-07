@@ -6,7 +6,9 @@ const CardList = () => {
   return (
     <main className="flex  flex-col flex-wrap justify-center gap-8 p-8">
       <div className="flex flex-wrap justify-center gap-14">
-        <CardHolder url="/images/cnumber.png" title={"Common Number"} />
+        <Link href={"/common-number"}>
+          <CardHolder url="/images/cnumber.png" title={"Common Number"} />
+        </Link>
         <Link href={"/dream-number"}>
           <CardHolder url="/images/dnumber.png" title={"Dream Number"} />
         </Link>

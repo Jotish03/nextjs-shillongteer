@@ -186,10 +186,10 @@ const HeroSection = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px] text-center font-bold">
-                Morning 11:25 AM
+                F/R - 10:25 AM
               </TableHead>
               <TableHead className="w-[100px] text-center font-bold">
-                Evening 5:25 PM
+                S/R - 11:25AM
               </TableHead>
             </TableRow>
           </TableHeader>
