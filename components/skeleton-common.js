@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 
 const SkeletonCommon = () => {
+  const numRows = 10;
   return (
     <main className="flex flex-col items-center justify-center gap-18 mt-32 p-4 ">
       <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-6">
@@ -34,21 +35,15 @@ const SkeletonCommon = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>
-                <Skeleton className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-full" />
-              </TableCell>
-
-              <TableCell className="w-0">
-                <Skeleton className="h-4 w-full" />
-              </TableCell>
-            </TableRow>
+            {Array.from({ length: numRows }).map((_, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {Array.from({ length: 4 }).map((_, cellIndex) => (
+                  <TableCell key={cellIndex}>
+                    <Skeleton className="h-4 md:h-4 w-full " />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </section>

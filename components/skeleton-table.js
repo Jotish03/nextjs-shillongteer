@@ -9,43 +9,44 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const SkeletonTable = ({ skeletonStyle }) => {
-  // Define the number of rows
+const SkeletonTable = () => {
   const numRows = 10;
-
   return (
-    <main className="flex items-center justify-center">
-      <Table className="w-full overflow-x-auto">
-        <TableHeader className="hidden md:flex">
-          <TableRow className="flex">
-            <TableHead className="flex-1">
-              <Skeleton className="h-4 w-full md:w-[450px]" />
-            </TableHead>
-            <TableHead className="flex-1">
-              <Skeleton className="h-4 w-full md:w-[450px]" />
-            </TableHead>
-            <TableHead className="flex-1">
-              <Skeleton className="h-4 w-full md:w-[450px]" />
-            </TableHead>
-            <TableHead className="flex-1">
-              <Skeleton className="h-4 w-full md:w-[450px]" />
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {/* Loop to generate rows */}
-          {Array.from({ length: numRows }).map((_, rowIndex) => (
-            <TableRow key={rowIndex} className="flex flex-wrap">
-              {/* Loop to generate cells */}
-              {Array.from({ length: 4 }).map((_, cellIndex) => (
-                <TableCell key={cellIndex} className="flex-1 md:w-auto">
-                  <Skeleton className="h-4 md:h-4 w-full md:w-[250px]" />
-                </TableCell>
-              ))}
+    <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">
+      <section className="w-full ">
+        <Table>
+          <TableCaption>
+            <Skeleton className="h-4 w-full" />
+          </TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <Skeleton className="h-4 w-full" />
+              </TableHead>
+              <TableHead>
+                <Skeleton className="h-4 w-full" />
+              </TableHead>
+              <TableHead>
+                <Skeleton className="h-4 w-full" />
+              </TableHead>
+              <TableHead>
+                <Skeleton className="h-4 w-full" />
+              </TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: numRows }).map((_, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {Array.from({ length: 4 }).map((_, cellIndex) => (
+                  <TableCell key={cellIndex}>
+                    <Skeleton className="h-4 md:h-4 w-full " />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </section>
     </main>
   );
 };

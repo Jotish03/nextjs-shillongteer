@@ -142,7 +142,6 @@ const PreviousResult = () => {
           property="og:url"
           content="https://www.shillongmorningsundayresult.com/previous-result"
         />
-        {/* Add more meta tags as needed */}
       </Head>
 
       <section className="flex items-center justify-center mt-10">
@@ -156,10 +155,10 @@ const PreviousResult = () => {
           </Button>
         )}
       </section>
-      <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">
-        {loadingPreviousResult ? (
-          <SkeletonTable />
-        ) : (
+      {loadingPreviousResult ? (
+        <SkeletonTable />
+      ) : (
+        <main className="flex items-center justify-center mt-8 p-4 sm:p-0 lg:px-24">
           <Table>
             <TableCaption>Shillong Previous Result</TableCaption>
             <TableHeader>
@@ -205,8 +204,8 @@ const PreviousResult = () => {
               ))}
             </TableBody>
           </Table>
-        )}
-      </main>
+        </main>
+      )}
 
       {totalPages > 1 && (
         <section className="mt-10 mb-8">
