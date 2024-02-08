@@ -16,6 +16,7 @@ import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import NotificationContext from "@/store/notification-store";
 import SkeletonCommon from "@/components/skeleton-common";
+import Head from "next/head";
 
 const CommonNumber = () => {
   const [roundresults, setRoundResults] = useState([]);
@@ -141,6 +142,32 @@ const CommonNumber = () => {
 
   return (
     <>
+      <Head>
+        <title>Common Number Analysis: Shillong Teer Result</title>
+        <meta
+          name="description"
+          content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
+        />
+        <meta
+          name="keywords"
+          content="teer, shillong teer, teer result, teer result history, teer result archive, common number analysis"
+        />
+        <meta name="author" content="Shillong Teer Result Archive" />
+        <meta
+          property="og:title"
+          content="Common Number Analysis: Shillong Teer Result"
+        />
+        <meta
+          property="og:description"
+          content="Check out the Shillong Teer results along with results from other teer regions in India. Stay informed with the past teer results and explore common number analysis."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.shillongmorningsundayresult.com/common-number"
+        />
+      </Head>
+
       {loading ? (
         <SkeletonCommon />
       ) : (
