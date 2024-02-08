@@ -9,11 +9,11 @@ const CardList = () => {
         <Link href={"/common-number"}>
           <CardHolder url="/images/cnumber.png" title={"Common Number"} />
         </Link>
-        <Link href={"/dream-number"}>
-          <CardHolder url="/images/dnumber.png" title={"Dream Number"} />
-        </Link>
         <Link href={"/previous-result"}>
           <CardHolder url="/images/presult.png" title={"Previous Result"} />
+        </Link>
+        <Link href={"/dream-number"}>
+          <CardHolder url="/images/dnumber.png" title={"Dream Number"} />
         </Link>
       </div>
       {/* <div className="flex flex-wrap justify-center gap-14">

@@ -19,6 +19,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
+import Loading from "@/pages/loading";
+import DateView from "../date";
 
 const HeroSection = () => {
   const { data: session, status } = useSession();
@@ -31,6 +33,7 @@ const HeroSection = () => {
   const [loadingEveningUpdate, setLoadingEveningUpdate] = useState(false);
   const [loadingMorningDelete, setLoadingMorningDelete] = useState(false);
   const [loadingEveningDelete, setLoadingEveningDelete] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const notificationctx = useContext(NotificationContext);
 
@@ -41,9 +44,11 @@ const HeroSection = () => {
         setMorningResult(morningResponse.data.result?.result || "XX");
         const eveningResponse = await axios.get("/api/eveningresult");
         setEveningResult(eveningResponse.data.result?.result || "XX");
+        setLoading(false);
         setLoadingResult(false);
       } catch (error) {
         console.error("Error fetching results:", error);
+        setLoading(false);
         setLoadingResult(false);
       }
     };
@@ -169,143 +174,166 @@ const HeroSection = () => {
   };
 
   return (
-    <main className="flex flex-wrap items-center justify-center">
-      <div
-        className="w-full md:w-auto md:flex-shrink-0 md:mr-8 mb-8 md:mb-0 relative"
-        style={{ maxWidth: "400px", width: "100%" }}
-      >
-        <div className="relative" style={{ width: "100%", paddingTop: "100%" }}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Lottie isClickToPauseDisabled options={defaultOptions} />
-          </div>
-        </div>
-      </div>
-      <div className="w-full mt-[-100px] lg:mt-0 md:mt-0 md:w-2/4 p-10">
-        <Table>
-          <TableCaption>Shillong Teer Result</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px] text-center font-bold">
-                F/R - 10:25 AM
-              </TableHead>
-              <TableHead className="w-[100px] text-center font-bold">
-                S/R - 11:25AM
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="w-[100px] text-center font-medium">
-                <div className="flex flex-col items-center justify-center">
-                  {loadingResult ? (
-                    <Skeleton className="w-[50px] h-[20px] rounded-full" />
-                  ) : (
-                    <>
-                      {session ? (
-                        <>
-                          <Input
-                            type="text"
-                            className="text-center"
-                            value={morningResult}
-                            onChange={(e) => setMorningResult(e.target.value)}
-                          />
-                          <div className="flex gap-1 mt-4">
-                            <Button
-                              onClick={handleMorningUpdate}
-                              disabled={loadingMorningUpdate}
-                            >
-                              {loadingMorningUpdate ? (
-                                <ClipLoader
-                                  size={20}
-                                  color={"#000"}
-                                  loading={true}
-                                />
-                              ) : (
-                                <IoMdAdd size={20} />
-                              )}
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              onClick={handleMorningDelete}
-                              disabled={loadingMorningDelete}
-                            >
-                              {loadingMorningDelete ? (
-                                <ClipLoader
-                                  size={20}
-                                  color={"#fff"}
-                                  loading={true}
-                                />
-                              ) : (
-                                <MdDeleteOutline size={20} />
-                              )}
-                            </Button>
-                          </div>
-                        </>
-                      ) : (
-                        morningResult
-                      )}
-                    </>
-                  )}
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <main className="flex  flex-wrap items-center justify-center">
+            <div
+              className="w-full md:w-auto md:flex-shrink-0 md:mr-8 mb-8 md:mb-0 relative"
+              style={{ maxWidth: "400px", width: "100%" }}
+            >
+              <div
+                className="relative"
+                style={{ width: "100%", paddingTop: "100%" }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Lottie isClickToPauseDisabled options={defaultOptions} />
                 </div>
-              </TableCell>
-              <TableCell className="w-[100px] text-center font-medium">
-                <div className="flex flex-col items-center justify-center">
-                  {loadingResult ? (
-                    <Skeleton className="w-[50px] h-[20px] rounded-full" />
-                  ) : (
-                    <>
-                      {session ? (
-                        <>
-                          <Input
-                            type="text"
-                            className="text-center"
-                            value={eveningResult}
-                            onChange={(e) => setEveningResult(e.target.value)}
-                          />
-                          <div className="flex gap-1 mt-4">
-                            <Button
-                              onClick={handleEveningUpdate}
-                              disabled={loadingEveningUpdate}
-                            >
-                              {loadingEveningUpdate ? (
-                                <ClipLoader
-                                  size={20}
-                                  color={"#000"}
-                                  loading={true}
+              </div>
+            </div>
+            <div className="w-full mt-[-100px] lg:mt-0 md:mt-0 md:w-2/4 p-10">
+              <Table>
+                <TableCaption className="text-white">
+                  <DateView />
+                </TableCaption>
+                <TableCaption className="mt-[5px]">
+                  Shillong Teer Result
+                </TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px] text-center font-bold">
+                      F/R - 10:25 AM
+                    </TableHead>
+                    <TableHead className="w-[100px] text-center font-bold">
+                      S/R - 11:25AM
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="w-[100px] text-center font-medium">
+                      <div className="flex flex-col items-center justify-center">
+                        {loadingResult ? (
+                          <Skeleton className="w-[50px] h-[20px] rounded-full" />
+                        ) : (
+                          <>
+                            {session ? (
+                              <>
+                                <Input
+                                  type="text"
+                                  className="text-center"
+                                  value={morningResult}
+                                  onChange={(e) =>
+                                    setMorningResult(e.target.value)
+                                  }
                                 />
-                              ) : (
-                                <IoMdAdd size={20} />
-                              )}
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              onClick={handleEveningDelete}
-                              disabled={loadingEveningDelete}
-                            >
-                              {loadingEveningDelete ? (
-                                <ClipLoader
-                                  size={20}
-                                  color={"#fff"}
-                                  loading={true}
+                                <div className="flex gap-1 mt-4">
+                                  <Button
+                                    onClick={handleMorningUpdate}
+                                    disabled={loadingMorningUpdate}
+                                  >
+                                    {loadingMorningUpdate ? (
+                                      <ClipLoader
+                                        size={20}
+                                        color={"#000"}
+                                        loading={true}
+                                      />
+                                    ) : (
+                                      <IoMdAdd size={20} />
+                                    )}
+                                  </Button>
+                                  <Button
+                                    variant="destructive"
+                                    onClick={handleMorningDelete}
+                                    disabled={loadingMorningDelete}
+                                  >
+                                    {loadingMorningDelete ? (
+                                      <ClipLoader
+                                        size={20}
+                                        color={"#fff"}
+                                        loading={true}
+                                      />
+                                    ) : (
+                                      <MdDeleteOutline size={20} />
+                                    )}
+                                  </Button>
+                                </div>
+                              </>
+                            ) : (
+                              morningResult
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="w-[100px] text-center font-medium">
+                      <div className="flex flex-col items-center justify-center">
+                        {loadingResult ? (
+                          <Skeleton className="w-[50px] h-[20px] rounded-full" />
+                        ) : (
+                          <>
+                            {session ? (
+                              <>
+                                <Input
+                                  type="text"
+                                  className="text-center"
+                                  value={eveningResult}
+                                  onChange={(e) =>
+                                    setEveningResult(e.target.value)
+                                  }
                                 />
-                              ) : (
-                                <MdDeleteOutline size={20} />
-                              )}
-                            </Button>
-                          </div>
-                        </>
-                      ) : (
-                        eveningResult
-                      )}
-                    </>
-                  )}
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
-    </main>
+                                <div className="flex gap-1 mt-4">
+                                  <Button
+                                    onClick={handleEveningUpdate}
+                                    disabled={loadingEveningUpdate}
+                                  >
+                                    {loadingEveningUpdate ? (
+                                      <ClipLoader
+                                        size={20}
+                                        color={"#000"}
+                                        loading={true}
+                                      />
+                                    ) : (
+                                      <IoMdAdd size={20} />
+                                    )}
+                                  </Button>
+                                  <Button
+                                    variant="destructive"
+                                    onClick={handleEveningDelete}
+                                    disabled={loadingEveningDelete}
+                                  >
+                                    {loadingEveningDelete ? (
+                                      <ClipLoader
+                                        size={20}
+                                        color={"#fff"}
+                                        loading={true}
+                                      />
+                                    ) : (
+                                      <MdDeleteOutline size={20} />
+                                    )}
+                                  </Button>
+                                </div>
+                              </>
+                            ) : (
+                              eveningResult
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </main>
+          <main className="flex items-center justify-center">
+            <div></div>
+          </main>
+        </>
+      )}
+    </>
   );
 };
 

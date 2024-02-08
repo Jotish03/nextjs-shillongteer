@@ -7,15 +7,6 @@ import { useState, useEffect } from "react";
 import Loading from "./loading";
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate fetching data or any asynchronous operation
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000); // Example: Simulate a 2-second loading delay
-  }, []);
-
   return (
     <>
       <Head>
@@ -44,7 +35,7 @@ const Home = () => {
         />
         {/* Add more meta tags as needed */}
       </Head>
-      {loading && <Loading />}
+
       <main>
         <HeroSection />
         <CardList />
