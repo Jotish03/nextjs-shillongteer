@@ -180,7 +180,7 @@ const HeroSection = () => {
       ) : (
         <>
           <main className="flex  flex-wrap items-center justify-center">
-            <div
+            {/* <div
               className="w-full md:w-auto md:flex-shrink-0 md:mr-8 mb-8 md:mb-0 relative"
               style={{ maxWidth: "400px", width: "100%" }}
             >
@@ -192,9 +192,9 @@ const HeroSection = () => {
                   <Lottie isClickToPauseDisabled options={defaultOptions} />
                 </div>
               </div>
-            </div>
-            <div className="w-full mt-[-100px] lg:mt-0 md:mt-0 md:w-2/4 p-10">
-              <Table>
+            </div> */}
+            <div className="w-full lg:mt-0 md:mt-0 md:w-2/4 p-10">
+              <Table className=" border-2 ">
                 <TableCaption className="text-white">
                   <DateView />
                 </TableCaption>
@@ -202,12 +202,12 @@ const HeroSection = () => {
                   Shillong Teer Result
                 </TableCaption>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px] text-center font-bold">
+                  <TableRow className="bg-[#65d7eb] ">
+                    <TableHead className="w-[100px] text-center font-bold text-black">
                       F/R - 10:25 AM
                     </TableHead>
-                    <TableHead className="w-[100px] text-center font-bold">
-                      S/R - 11:25AM
+                    <TableHead className="w-[100px] text-center font-bold text-black">
+                      S/R - 11:25 AM
                     </TableHead>
                   </TableRow>
                 </TableHeader>

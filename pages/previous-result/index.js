@@ -28,6 +28,7 @@ import NotificationContext from "@/store/notification-store";
 import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import BottomCard from "@/components/cards/cardbottom";
 
 const PreviousResult = () => {
   const router = useRouter();
@@ -163,10 +164,10 @@ const PreviousResult = () => {
             <TableCaption>Shillong Previous Result</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead>City</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>F/R</TableHead>
-                <TableHead>S/R</TableHead>
+                <TableHead className="text-black">City</TableHead>
+                <TableHead className="text-black">Date</TableHead>
+                <TableHead className="text-black">F/R</TableHead>
+                <TableHead className="text-black">S/R</TableHead>
                 {session && <TableHead>Actions</TableHead>}
               </TableRow>
             </TableHeader>
@@ -230,6 +231,7 @@ const PreviousResult = () => {
           </Pagination>
         </section>
       )}
+      <BottomCard />
     </>
   );
 };

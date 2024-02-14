@@ -39,7 +39,6 @@ const Home = () => {
       <main>
         <HeroSection />
         <CardList />
-        <Footer />
       </main>
     </>
   );

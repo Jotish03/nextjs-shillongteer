@@ -11,8 +11,10 @@ const DateView = () => {
   const formattedDate = format(today, "MMMM do, yyyy");
 
   return (
-    <div className="text-center mt-4">
-      <p className="text-lg mt-2 font-bold">{formattedDate}</p>
+    <div className="text-center ">
+      <p className="text-lg mt-2 font-bold text-black dark:text-white">
+        {formattedDate}
+      </p>
     </div>
   );
 };

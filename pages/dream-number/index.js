@@ -1,3 +1,4 @@
+import BottomCard from "@/components/cards/cardbottom";
 import DreamMeanings from "@/components/meaning";
 import {
   Table,
@@ -44,7 +45,7 @@ const TableDemo = () => {
         {/* Add more meta tags as needed */}
       </Head>
 
-      <main className="flex items-center justify-center p-2 m-8">
+      <main className="flex items-center justify-center p-1 m-8">
         <Table>
           <TableCaption>A list of your dream meanings</TableCaption>
           <TableHeader>
@@ -67,6 +68,7 @@ const TableDemo = () => {
           </TableBody>
         </Table>
       </main>
+      <BottomCard />
     </>
   );
 };

@@ -17,6 +17,7 @@ import { ClipLoader } from "react-spinners";
 import NotificationContext from "@/store/notification-store";
 import SkeletonCommon from "@/components/skeleton-common";
 import Head from "next/head";
+import BottomCard from "@/components/cards/cardbottom";
 
 const CommonNumber = () => {
   const [roundresults, setRoundResults] = useState([]);
@@ -183,14 +184,14 @@ const CommonNumber = () => {
                 </Button>
               </section>
             )}
-            <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-6">
-              <Table>
+            <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
+              <Table className="border-2">
                 <TableCaption>SHILLONG ROUND ONE</TableCaption>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Direct</TableHead>
-                    <TableHead>House</TableHead>
-                    <TableHead>Ending</TableHead>
+                    <TableHead className="text-black">Direct</TableHead>
+                    <TableHead className="text-black">House</TableHead>
+                    <TableHead className="w-20 text-black">Ending</TableHead>
                     {session && <TableHead>Actions</TableHead>}
                   </TableRow>
                 </TableHeader>
@@ -233,14 +234,14 @@ const CommonNumber = () => {
                 </Button>
               </section>
             )}
-            <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-6">
-              <Table>
+            <section className="w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-2">
+              <Table className="border-2">
                 <TableCaption>SHILLONG ROUND 2</TableCaption>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Direct</TableHead>
-                    <TableHead>House</TableHead>
-                    <TableHead>Ending</TableHead>
+                    <TableHead className="text-black">Direct</TableHead>
+                    <TableHead className="text-black">House</TableHead>
+                    <TableHead className="w-20 text-black">Ending</TableHead>
                     {session && <TableHead>Actions</TableHead>}
                   </TableRow>
                 </TableHeader>
@@ -276,12 +277,16 @@ const CommonNumber = () => {
                 </TableBody>
               </Table>
             </section>
-            <div className="mt-[25dvh] ">
-              <p className="text-[15px] font-thin">
+
+            <div className="mt-4 text-center  ">
+              <p className="text-[15px] font-thin text-black">
                 Disclaimer : These common numbers are purely based on certain
                 calculations done using past results. There is no guarantee of
                 the accuracy of these numbers.
               </p>
+            </div>
+            <div>
+              <BottomCard />
             </div>
           </main>
         </>
