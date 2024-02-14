@@ -10,9 +10,9 @@ const NavigationBar = () => {
   const { data: session, status } = useSession();
 
   const router = useRouter();
-  const handleLoginButtonRoute = () => {
-    router.push("/user-auth/user-login");
-  };
+  // const handleLoginButtonRoute = () => {
+  //   router.push("/user-auth/user-login");
+  // };
 
   return (
     <main className="flex items-center justify-around mt-10">
@@ -21,7 +21,7 @@ const NavigationBar = () => {
       </Link>
 
       <div className="flex items-center gap-2">
-        {!session && (
+        {/* {!session && (
           <Button
             type="button"
             variant="outline"
@@ -30,7 +30,7 @@ const NavigationBar = () => {
           >
             Login
           </Button>
-        )}
+        )} */}
         {session && (
           <>
             <Profile />
