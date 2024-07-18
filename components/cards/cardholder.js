@@ -17,9 +17,7 @@ const CardHolder = ({ url, title }) => {
           src={url}
           width={500}
           height={500}
-          className="rounded-lg "
-          layout="responsive"
-          priority
+          className="rounded-lg"
           alt={title}
         />
       </CardHeader>

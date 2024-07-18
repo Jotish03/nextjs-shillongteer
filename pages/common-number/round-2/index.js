@@ -11,16 +11,13 @@ import {
 import { IoMdAdd } from "react-icons/io";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import axios from "axios";
-
 import { useRouter } from "next/router";
-import { ClipLoader } from "react-spinners"; // Import ClipLoader from react-spinners
+import { ClipLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
-import { z } from "zod"; // Import z function from Zod
-
+import { z } from "zod";
+import { useMutation, useQueryClient } from "react-query";
 import NotificationContext from "@/store/notification-store";
 import Head from "next/head";
 
@@ -30,10 +27,17 @@ const schema = z.object({
   ending: z.string().min(1, { message: "Ending is required" }),
 });
 
+const addRoundTwo = async (formData) => {
+  const response = await axios.post("/api/common-number/roundtwo", formData);
+  return response.data;
+};
+
 const RoundTwo = () => {
   const notificationctx = useContext(NotificationContext);
   const { data: session } = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     direct: "",
     house: "",
@@ -44,43 +48,42 @@ const RoundTwo = () => {
     house: "",
     ending: "",
   });
-  const [loadingAddResult, setLoadingAddResult] = useState(false); // Add loading state for the "Add Result" button
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoadingAddResult(true); // Set loading state to true when submitting the form
-    try {
-      schema.parse(formData); // Validate form data against the schema
-      await axios.post("/api/common-number/roundtwo", formData);
-      setFormData({
-        direct: "",
-        house: "",
-        ending: "",
-      });
+  const mutation = useMutation(addRoundTwo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("roundTwoData");
       notificationctx.showNotification({
         title: "Round 2 Added Successfully",
         description: "Success",
         variant: "blackToast",
       });
-      console.log("Round 2 added successfully!");
-      router.push("/common-number");
+      router.push("/common-number").then(() => router.reload());
+    },
+    onError: (error) => {
+      notificationctx.showNotification({
+        title: "Error adding result",
+        description: "Check fields",
+        variant: "destructive",
+      });
+      console.error("Error adding result:", error);
+    },
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear the error for the field being changed
+    setFormErrors({ ...formErrors, [e.target.name]: "" });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      schema.parse(formData);
+      mutation.mutate(formData);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setFormErrors(error.flatten().fieldErrors);
-      } else {
-        notificationctx.showNotification({
-          title: "Error adding result",
-          description: "Check fields",
-          variant: "destructive",
-        });
-        console.error("Error adding result:", error);
       }
-    } finally {
-      setLoadingAddResult(false);
     }
   };
 
@@ -116,6 +119,7 @@ const RoundTwo = () => {
           content="https://www.shillongmorningsundayresult.com/common-number"
         />
       </Head>
+
       {session ? (
         <main className="flex items-center justify-center p-8 min-h-[90vh]">
           <Card className="w-[550px]">
@@ -170,8 +174,8 @@ const RoundTwo = () => {
                     <Button variant="outline" onClick={onCancel}>
                       Cancel
                     </Button>
-                    <Button type="submit">
-                      {loadingAddResult ? (
+                    <Button type="submit" disabled={mutation.isLoading}>
+                      {mutation.isLoading ? (
                         <ClipLoader
                           size={20}
                           color={`#000 dark:#000`}

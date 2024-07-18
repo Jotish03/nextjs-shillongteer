@@ -1,10 +1,7 @@
 import Head from "next/head";
 import CardList from "@/components/cards/cardlist";
-import Footer from "@/components/footer";
-import HeroSection from "@/components/hero-section/herosection";
-import { useState, useEffect } from "react";
 
-import Loading from "./loading";
+import HeroSection from "@/components/hero-section/herosection";
 
 const Home = () => {
   return (
