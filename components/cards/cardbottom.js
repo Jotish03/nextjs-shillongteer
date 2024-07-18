@@ -7,7 +7,7 @@ const BottomCard = () => {
     <main className="flex justify-center items-center mt-8">
       <div className="flex  justify-center gap-1 lg:gap-2 sm:gap-1 md:gap-2">
         <Link href={"/common-number"}>
-          <CardHolder url="/images/commonnumber.jpg" title={"Common Number"} />
+          <CardHolder url="/images/common-number.jpg" title={"Common Number"} />
         </Link>
         <Link href={"/previous-result"}>
           <CardHolder
