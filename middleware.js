@@ -1,4 +1,3 @@
-// pages/api/location-block/[...path].js
 import { NextResponse } from "next/server";
 
 const BLOCKED_LOCATIONS = [
@@ -10,12 +9,12 @@ const BLOCKED_LOCATIONS = [
 
 const ALLOWED_COUNTRIES = ["IN"]; // Country code for India
 
-export default function middleware(req) {
-  const { geo } = req;
+export function middleware(request) {
+  const { geo } = request;
   const requestLocation = {
-    city: (geo.city || "").toLowerCase(),
-    region: (geo.region || "").toLowerCase(),
-    country: (geo.country || "").toUpperCase(), // Country codes are typically uppercase
+    city: (geo?.city || "").toLowerCase(),
+    region: (geo?.region || "").toLowerCase(),
+    country: (geo?.country || "").toUpperCase(), // Country codes are typically uppercase
   };
 
   // First, check if the request is from an allowed country (India)

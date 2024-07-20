@@ -79,12 +79,5 @@
         }
       ]
     }
-  ],
-  "regions": ["bom1"],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "continue": true
-    }
   ]
 }
